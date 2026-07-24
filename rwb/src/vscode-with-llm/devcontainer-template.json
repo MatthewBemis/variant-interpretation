@@ -1,0 +1,28 @@
+{
+  "id": "vscode-with-llm",
+  "version": "0.0.1",
+  "name": "Vscode with LLM tools",
+  "description": "A Template to run vscode with LLM tools on workbench",
+  "documentationURL": "https://github.com/verily-src/workbench-app-devcontainers/tree/master/src/vscode-with-llm",
+  "licenseURL": "https://github.com/verily-src/workbench-app-devcontainers/blob/master/LICENSE",
+  "options": {
+    "cloud": {
+      "type": "string",
+      "description": "VM cloud environment",
+      "proposals": ["gcp", "aws"],
+      "default": "gcp"
+    },
+    "login": {
+      "type": "string",
+      "description": "Whether to log in to workbench CLI",
+      "proposals": ["true", "false"],
+      "default": "false"
+    },
+    "shmSize": {
+      "type": "string",
+      "description": "Shared memory size for the application-server container",
+      "default": "64m"
+    }
+  },
+  "platforms": ["Any"]
+}

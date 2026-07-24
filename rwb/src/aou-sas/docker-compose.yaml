@@ -1,0 +1,66 @@
+include:
+  - ../common/common-compose.yaml
+  - ../aou-common/aou-common-compose.yaml
+services:
+  app:
+    container_name: "application-server"
+    shm_size: "${templateOption:shmSize}"
+    build:
+      context: .
+      additional_contexts:
+        wb-secret-receiver: service:common-secret-receiver-builder
+        load-envs: service:aou-common-load-envs
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - .:/workspace:cached
+      - sas-data:/data
+      # SAS startup script — invoked via PRE_DEPLOY_SCRIPT before SAS
+      # services start.  Must NOT mount at /tmp/pre_deploy.sh because
+      # the entrypoint overwrites that path with the env var content.
+      - ./sas-pre-deploy.sh:/opt/sas/aou/sas-pre-deploy.sh:ro
+      - ./sas-post-deploy.sh:/opt/sas/aou/sas-post-deploy.sh:ro
+    tmpfs:
+      - /data/workspace:uid=1002,gid=1100
+    environment:
+      HOST_AUTH: ""
+      SAS_DEBUG: "0"
+      SASLICENSEFILE: "SASLicense.jwt"
+      GOMEMLIMIT: "20MiB"
+      PRE_DEPLOY_SCRIPT: "bash /opt/sas/aou/sas-pre-deploy.sh"
+      POST_DEPLOY_SCRIPT: "bash /opt/sas/aou/sas-post-deploy.sh"
+      JAVA_OPTION_SAS_COMMONS_WEB_SECURITY_CORS_ALLOWEDORIGINS: "-Dsas.commons.web.security.cors.allowedOrigins=*"
+      JAVA_OPTION_SAS_COMMONS_WEB_SECURITY_CORS_ALLOWCREDENTIALS: "-Dsas.commons.web.security.cors.allowCredentials=false"
+      JAVA_OPTION_SAS_COMMONS_WEB_SECURITY_CORS_ALLOWEDHEADERS: "-Dsas.commons.web.security.cors.allowedHeaders=*"
+      JAVA_OPTION_SAS_COMMONS_WEB_SECURITY_CORS_ALLOWEDMETHODS: "-Dsas.commons.web.security.cors.allowedMethods=OPTIONS,POST,PUT,GET,DELETE,HEAD,PATCH"
+      JAVA_OPTION_SAS_COMMONS_WEB_SECURITY_CSRF: "-Dsas.commons.web.security.csrf.enable-csrf=false"
+      JAVA_OPTION_SAS_COMMONS_WEB_SECURITY_CSRF_ALLOWEDURIS: "-Dsas.commons.web.security.csrf.allowedUris=*"
+      # Use sameSite=None for GCE (HTTPS + cross-origin iframe).
+      # For local HTTP testing, change to sameSite=Lax.
+      JAVA_OPTION_SAS_COMMONS_WEB_SECURITY_COOKIES_SAMESITE: "-Dsas.commons.web.security.cookies.sameSite=None"
+      JAVA_OPTION_SAS_STUDIO_BASICUSER: "-Dsas.studio.basicUser=aou"
+      JAVA_OPTION_SAS_STUDIO_BASICPASSWORD: "-Dsas.studio.basicPassword=aou"
+      JAVA_OPTION_SERVER_SERVLET_SESSION_TIMEOUT: "-Dserver.servlet.session.timeout=240m"
+    networks:
+      - app-network
+    depends_on:
+      - wondershaper
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    security_opt:
+      - apparmor:unconfined
+  wondershaper:
+    container_name: "wondershaper"
+    image: "us-west2-docker.pkg.dev/shared-pub-buckets-94mvrf/workbench-artifacts/app-wondershaper@sha256:0438761b165f6f8da90383722278be8cf89607f39cd42c386877fe72f26b3b40"
+    restart: always
+    network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+networks:
+  app-network:
+    external: true
+volumes:
+  sas-data:

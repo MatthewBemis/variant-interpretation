@@ -1,0 +1,25 @@
+{
+  "id": "hello-world",
+  "version": "1.0.0",
+  "name": "hello-world",
+  "description": "Custom Workbench app: hello-world (Image: nginx:1.27, Port: 8080, User: root)",
+  "options": {
+    "cloud": {
+      "type": "string",
+      "enum": ["gcp", "aws"],
+      "default": "gcp",
+      "description": "Cloud provider (gcp or aws)"
+    },
+    "login": {
+      "type": "string",
+      "description": "Whether to log in to workbench CLI",
+      "proposals": ["true", "false"],
+      "default": "false"
+    },
+    "shmSize": {
+      "type": "string",
+      "description": "Shared memory size for the application-server container",
+      "default": "64m"
+    }
+  }
+}
