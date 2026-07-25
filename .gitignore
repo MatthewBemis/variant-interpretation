@@ -1,0 +1,13 @@
+# Backend (Maven)
+backend/target/
+# Populated at container-build time by copying the built frontend in.
+backend/src/main/resources/static/
+
+# Frontend (Node/Vite)
+frontend/node_modules/
+frontend/dist/
+frontend/*.tsbuildinfo
+
+# IDE
+.idea/
+*.iml
