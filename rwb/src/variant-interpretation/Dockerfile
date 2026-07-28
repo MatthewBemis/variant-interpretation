@@ -16,7 +16,7 @@ COPY backend/src ./src
 COPY --from=frontend-build /frontend/dist ./src/main/resources/static
 RUN mvn -B package -DskipTests
 
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:17-jre-noble
 WORKDIR /app
 COPY --from=backend-build /backend/target/*.jar app.jar
 EXPOSE 8080
