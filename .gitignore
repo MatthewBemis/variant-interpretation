@@ -1,5 +1,6 @@
-# Backend (Maven)
-backend/target/
+# Backend (Gradle)
+backend/build/
+backend/.gradle/
 # Populated at container-build time by copying the built frontend in.
 backend/src/main/resources/static/
 

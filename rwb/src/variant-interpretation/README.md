@@ -7,7 +7,7 @@ single container.
 The `Dockerfile` here builds in two stages: it compiles the frontend
 (`frontend/` at the repo root) with Node, copies the built assets into the
 backend's static resources, then builds the Spring Boot jar (`backend/` at
-the repo root) with Maven. The resulting image runs the jar directly, so the
+the repo root) with Gradle. The resulting image runs the jar directly, so the
 API (`/api/hello`) and the frontend are both served from port 8080 — no
 reverse proxy or CORS configuration needed.
 

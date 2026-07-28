@@ -8,16 +8,17 @@ RUN npm ci
 COPY frontend/ .
 RUN npm run build
 
-FROM maven:3.9-eclipse-temurin-17 AS backend-build
+FROM gradle:8.14.1-jdk21-noble AS backend-build
 WORKDIR /backend
-COPY backend/pom.xml .
-RUN mvn -B dependency:go-offline
+COPY backend/settings.gradle backend/build.gradle backend/gradlew ./
+COPY backend/gradle ./gradle
+RUN ./gradlew --no-daemon dependencies
 COPY backend/src ./src
 COPY --from=frontend-build /frontend/dist ./src/main/resources/static
-RUN mvn -B package -DskipTests
+RUN ./gradlew --no-daemon bootJar -x test
 
-FROM eclipse-temurin:17-jre-noble
+FROM eclipse-temurin:21-jre-noble
 WORKDIR /app
-COPY --from=backend-build /backend/target/*.jar app.jar
+COPY --from=backend-build /backend/build/libs/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

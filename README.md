@@ -23,7 +23,7 @@ backend (see `frontend/vite.config.ts`):
 
 ```bash
 # terminal 1
-cd backend && mvn spring-boot:run
+cd backend && ./gradlew bootRun
 
 # terminal 2
 cd frontend && npm install && npm run dev
