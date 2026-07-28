@@ -32,7 +32,7 @@ cd frontend && npm install && npm run dev
 Open the URL Vite prints (default `http://localhost:5173`) - you should see
 "Hello world, it's `<timestamp>`".
 
-## Running as it will run in Workbench
+### Running as it will run in Workbench
 
 In Workbench, the frontend and backend are packaged into a single container on
 one port (Spring Boot serves the built frontend as static resources, so there's
