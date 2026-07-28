@@ -8,6 +8,10 @@ services:
       context: ../../..
       dockerfile: rwb/src/variant-interpretation/Dockerfile
     restart: always
+    # OWNER_EMAIL is set on the Workbench VM host; forward it through so the
+    # backend's /api/profile endpoint can read it.
+    environment:
+      - OWNER_EMAIL
     volumes:
       - .:/workspace:cached
     # The port specified here will be forwarded and accessible from the
