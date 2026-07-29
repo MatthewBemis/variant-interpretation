@@ -102,8 +102,15 @@ function toFilteredVariantRow(raw: RawFilteredVariant): FilteredVariantRow {
   };
 }
 
+// Real fetch is fast enough that the loading state would never be visible;
+// this floors it at 1s so the spinner/loading UI actually has time to show.
+const MIN_LOAD_TIME_MS = 1000;
+
 export async function fetchSearchResults(): Promise<SearchResults> {
-  const response = await fetch("/api/search-results");
+  const [response] = await Promise.all([
+    fetch("/api/search-results"),
+    new Promise((resolve) => setTimeout(resolve, MIN_LOAD_TIME_MS)),
+  ]);
   if (!response.ok) {
     throw new Error(`Request failed with status ${response.status}`);
   }
