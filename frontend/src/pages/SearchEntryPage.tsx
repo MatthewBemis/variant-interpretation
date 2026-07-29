@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FieldHint from "../components/FieldHint";
 import Hero from "../components/Hero";
+import RecentSearches from "../components/RecentSearches";
 import StepPanel from "../components/StepPanel";
 import ValueCallout from "../components/ValueCallout";
 import styles from "./SearchEntryPage.module.css";
@@ -79,6 +80,8 @@ export default function SearchEntryPage() {
           </svg>
           Search
         </button>
+
+        <RecentSearches />
       </main>
     </>
   );
