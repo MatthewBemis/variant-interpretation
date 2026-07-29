@@ -55,6 +55,23 @@
   z-index: 1;
 }
 
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  color: var(--text-accent);
+}
+
+.sortIndicator {
+  display: inline-block;
+  width: 10px;
+  margin-left: 2px;
+  font-size: 9px;
+  color: var(--text-accent);
+}
+
 .table tbody td {
   padding: 7px 10px;
   border-bottom: 1px solid var(--border);

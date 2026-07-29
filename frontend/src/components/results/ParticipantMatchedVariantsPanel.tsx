@@ -3,8 +3,10 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
   type RowSelectionState,
+  type SortingState,
 } from "@tanstack/react-table";
 import type { FilteredVariantRow } from "../../types/results";
 import CopyButton from "./CopyButton";
@@ -59,6 +61,7 @@ export default function ParticipantMatchedVariantsPanel({
   const [rowSelection, setRowSelection] = useState<RowSelectionState>(() =>
     Object.fromEntries(rows.map((row) => [row.variant, true])),
   );
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const columnHelper = useMemo(() => createColumnHelper<FilteredVariantRow>(), []);
 
@@ -79,18 +82,20 @@ export default function ParticipantMatchedVariantsPanel({
         cell: ({ row }) => (
           <input type="checkbox" checked={row.getIsSelected()} onChange={row.getToggleSelectedHandler()} />
         ),
+        enableSorting: false,
       }),
       columnHelper.accessor("variant", {
         header: "Variant",
         cell: (info) => <span className={styles.mono}>{info.getValue()}</span>,
       }),
       columnHelper.accessor("gene", { header: "Gene" }),
-      columnHelper.display({
+      columnHelper.accessor((row) => row.classification ?? undefined, {
         id: "classification",
         header: "Classification",
         cell: ({ row }) => row.original.classification ?? <NotAvailable />,
+        sortUndefined: "last",
       }),
-      columnHelper.display({
+      columnHelper.accessor((row) => (row.hasStats ? row.cohortAc : undefined), {
         id: "cohortAc",
         header: () => (
           <>
@@ -98,8 +103,9 @@ export default function ParticipantMatchedVariantsPanel({
           </>
         ),
         cell: ({ row }) => (row.original.hasStats ? row.original.cohortAc : <NotAvailable />),
+        sortUndefined: "last",
       }),
-      columnHelper.display({
+      columnHelper.accessor((row) => (row.hasStats ? row.cohortAn : undefined), {
         id: "cohortAn",
         header: () => (
           <>
@@ -107,8 +113,9 @@ export default function ParticipantMatchedVariantsPanel({
           </>
         ),
         cell: ({ row }) => (row.original.hasStats ? row.original.cohortAn : <NotAvailable />),
+        sortUndefined: "last",
       }),
-      columnHelper.display({
+      columnHelper.accessor((row) => (row.hasStats ? row.cohortAf : undefined), {
         id: "cohortAf",
         header: () => (
           <>
@@ -116,18 +123,21 @@ export default function ParticipantMatchedVariantsPanel({
           </>
         ),
         cell: ({ row }) => (row.original.hasStats ? row.original.cohortAf.toFixed(4) : <NotAvailable />),
+        sortUndefined: "last",
       }),
-      columnHelper.display({
+      columnHelper.accessor((row) => (row.hasStats ? row.homozygotes : undefined), {
         id: "homozygotes",
         header: "Homozygotes",
         cell: ({ row }) => (row.original.hasStats ? row.original.homozygotes : <NotAvailable />),
+        sortUndefined: "last",
       }),
-      columnHelper.display({
+      columnHelper.accessor((row) => (row.hasStats ? row.heterozygotes : undefined), {
         id: "heterozygotes",
         header: "Heterozygotes",
         cell: ({ row }) => (row.original.hasStats ? row.original.heterozygotes : <NotAvailable />),
+        sortUndefined: "last",
       }),
-      columnHelper.display({
+      columnHelper.accessor((row) => (row.hasStats ? row.clinvarPlpInTrans : undefined), {
         id: "clinvarPlpInTrans",
         header: () => (
           <>
@@ -138,8 +148,9 @@ export default function ParticipantMatchedVariantsPanel({
           </>
         ),
         cell: ({ row }) => (row.original.hasStats ? row.original.clinvarPlpInTrans : <NotAvailable />),
+        sortUndefined: "last",
       }),
-      columnHelper.display({
+      columnHelper.accessor((row) => (row.hasStats ? row.afRatio : undefined), {
         id: "afRatio",
         header: () => (
           <>
@@ -155,6 +166,7 @@ export default function ParticipantMatchedVariantsPanel({
           const elevated = afRatio >= ELEVATED_AF_RATIO_THRESHOLD;
           return <span className={elevated ? styles.deltaUp : styles.deltaFlat}>{afRatio.toFixed(1)}x</span>;
         },
+        sortUndefined: "last",
       }),
       columnHelper.display({
         id: "copy",
@@ -162,6 +174,7 @@ export default function ParticipantMatchedVariantsPanel({
         cell: ({ row }) => (
           <CopyButton getText={() => rowToTsvValues(row.original).join("\t")} label="Copy row" />
         ),
+        enableSorting: false,
       }),
     ],
     [columnHelper],
@@ -170,10 +183,12 @@ export default function ParticipantMatchedVariantsPanel({
   const table = useReactTable({
     data: rows,
     columns,
-    state: { rowSelection },
+    state: { rowSelection, sorting },
     onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
     getRowId: (row) => row.variant,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     enableRowSelection: true,
   });
 
@@ -224,11 +239,28 @@ export default function ParticipantMatchedVariantsPanel({
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id}>
-                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
-                ))}
+                {headerGroup.headers.map((header) => {
+                  const sortable = header.column.getCanSort();
+                  const sortDirection = header.column.getIsSorted();
+                  return (
+                    <th
+                      key={header.id}
+                      className={sortable ? styles.sortable : undefined}
+                      onClick={sortable ? header.column.getToggleSortingHandler() : undefined}
+                    >
+                      {header.isPlaceholder ? null : (
+                        <>
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {sortable && (
+                            <span className={styles.sortIndicator}>
+                              {sortDirection === "asc" ? "▲" : sortDirection === "desc" ? "▼" : ""}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </th>
+                  );
+                })}
               </tr>
             ))}
           </thead>

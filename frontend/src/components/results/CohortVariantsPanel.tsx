@@ -43,14 +43,6 @@ function tintClassName(columnId: string): string {
   return classNames.join(" ");
 }
 
-// Unannotated/unscored values always sort after real ones, regardless of sort direction.
-function compareDefined<T>(a: T | undefined | null, b: T | undefined | null, compare: (a: T, b: T) => number): number {
-  if (a == null && b == null) return 0;
-  if (a == null) return 1;
-  if (b == null) return -1;
-  return compare(a, b);
-}
-
 interface CohortVariantsPanelProps {
   rows: CohortVariantRow[];
 }
@@ -104,17 +96,12 @@ export default function CohortVariantsPanel({ rows }: CohortVariantsPanelProps) 
             header: "Variant",
             cell: (info) => <span className={styles.mono}>{info.getValue()}</span>,
           }),
-          columnHelper.accessor("gene", { header: "Gene", enableSorting: false }),
+          columnHelper.accessor("gene", { header: "Gene" }),
           columnHelper.accessor((row) => (row.annotated ? row.classification : undefined), {
             id: "classification",
             header: "Classification",
             cell: ({ row }) => (row.original.annotated ? row.original.classification : <NotAvailable />),
-            sortingFn: (rowA, rowB) =>
-              compareDefined(
-                rowA.original.annotated ? rowA.original.classification : undefined,
-                rowB.original.annotated ? rowB.original.classification : undefined,
-                (a, b) => a.localeCompare(b),
-              ),
+            sortUndefined: "last",
           }),
         ],
       }),
@@ -138,35 +125,20 @@ export default function CohortVariantsPanel({ rows }: CohortVariantsPanelProps) 
             header: "Subpopulation",
             cell: ({ row }) =>
               row.original.annotated ? <SubpopBadge subpopulation={row.original.subpopulation} /> : <NotAvailable />,
-            sortingFn: (rowA, rowB) =>
-              compareDefined(
-                rowA.original.annotated ? rowA.original.subpopulation : undefined,
-                rowB.original.annotated ? rowB.original.subpopulation : undefined,
-                (a, b) => a.localeCompare(b),
-              ),
+            sortUndefined: "last",
           }),
           columnHelper.accessor((row) => (row.annotated ? row.aouAf : undefined), {
             id: "aouAf",
             header: "AF",
             cell: ({ row }) => (row.original.annotated ? formatAf(row.original.aouAf) : <NotAvailable />),
-            sortingFn: (rowA, rowB) =>
-              compareDefined(
-                rowA.original.annotated ? rowA.original.aouAf : undefined,
-                rowB.original.annotated ? rowB.original.aouAf : undefined,
-                (a, b) => a - b,
-              ),
+            sortUndefined: "last",
           }),
           columnHelper.accessor((row) => (row.annotated ? row.aouAc : undefined), {
             id: "aouAcAn",
             header: "AC / AN",
             cell: ({ row }) =>
               row.original.annotated ? formatAcAn(row.original.aouAc, row.original.aouAn) : <NotAvailable />,
-            sortingFn: (rowA, rowB) =>
-              compareDefined(
-                rowA.original.annotated ? rowA.original.aouAc : undefined,
-                rowB.original.annotated ? rowB.original.aouAc : undefined,
-                (a, b) => a - b,
-              ),
+            sortUndefined: "last",
           }),
         ],
       }),
@@ -186,24 +158,14 @@ export default function CohortVariantsPanel({ rows }: CohortVariantsPanelProps) 
             id: "gnomadAf",
             header: "AF",
             cell: ({ row }) => (row.original.annotated ? formatAf(row.original.gnomadAf) : <NotAvailable />),
-            sortingFn: (rowA, rowB) =>
-              compareDefined(
-                rowA.original.annotated ? rowA.original.gnomadAf : undefined,
-                rowB.original.annotated ? rowB.original.gnomadAf : undefined,
-                (a, b) => a - b,
-              ),
+            sortUndefined: "last",
           }),
           columnHelper.accessor((row) => (row.annotated ? row.gnomadAc : undefined), {
             id: "gnomadAcAn",
             header: "AC / AN",
             cell: ({ row }) =>
               row.original.annotated ? formatAcAn(row.original.gnomadAc, row.original.gnomadAn) : <NotAvailable />,
-            sortingFn: (rowA, rowB) =>
-              compareDefined(
-                rowA.original.annotated ? rowA.original.gnomadAc : undefined,
-                rowB.original.annotated ? rowB.original.gnomadAc : undefined,
-                (a, b) => a - b,
-              ),
+            sortUndefined: "last",
           }),
           columnHelper.display({
             id: "gnomadLink",
@@ -238,23 +200,13 @@ export default function CohortVariantsPanel({ rows }: CohortVariantsPanelProps) 
                 </span>
               );
             },
-            sortingFn: (rowA, rowB) =>
-              compareDefined(
-                rowA.original.annotated ? CLINVAR_SEVERITY_RANK[rowA.original.clinvarSignificance] : undefined,
-                rowB.original.annotated ? CLINVAR_SEVERITY_RANK[rowB.original.clinvarSignificance] : undefined,
-                (a, b) => a - b,
-              ),
+            sortUndefined: "last",
           }),
           columnHelper.accessor((row) => (row.annotated ? row.spliceAi : undefined), {
             id: "spliceAi",
             header: "SpliceAI",
             cell: ({ row }) => (row.original.annotated ? row.original.spliceAi : <NotAvailable />),
-            sortingFn: (rowA, rowB) =>
-              compareDefined(
-                rowA.original.annotated ? rowA.original.spliceAi : undefined,
-                rowB.original.annotated ? rowB.original.spliceAi : undefined,
-                (a, b) => a - b,
-              ),
+            sortUndefined: "last",
           }),
           columnHelper.accessor((row) => (row.annotated ? (row.plof === "HC" ? 0 : 1) : undefined), {
             id: "plof",
@@ -268,12 +220,7 @@ export default function CohortVariantsPanel({ rows }: CohortVariantsPanelProps) 
                 </span>
               );
             },
-            sortingFn: (rowA, rowB) =>
-              compareDefined(
-                rowA.original.annotated ? (rowA.original.plof === "HC" ? 0 : 1) : undefined,
-                rowB.original.annotated ? (rowB.original.plof === "HC" ? 0 : 1) : undefined,
-                (a, b) => a - b,
-              ),
+            sortUndefined: "last",
           }),
         ],
       }),
