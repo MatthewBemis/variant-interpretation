@@ -124,17 +124,39 @@ public class SearchResultsController implements SearchResultsApi {
         annotatedVariant(
             "8-11708653-A-G", "Nonsense", CohortVariant.SubpopulationEnum.EUR, 0.0033, 1707, 517466, 0.0369, 5620,
             152312, CohortVariant.ClinvarSignificanceEnum.BENIGN, 0.02, null),
-        unannotatedVariant("8-11708661-C-T"),
-        unannotatedVariant("8-11708669-G-A"),
-        unannotatedVariant("8-11708677-T-C"),
-        unannotatedVariant("8-11708685-A-T"),
-        unannotatedVariant("8-11708693-C-G"),
-        unannotatedVariant("8-11708701-G-T"),
-        unannotatedVariant("8-11708709-A-C"),
-        unannotatedVariant("8-11708717-T-G"),
-        unannotatedVariant("8-11708725-C-A"),
-        unannotatedVariant("8-11708733-G-C"),
-        unannotatedVariant("8-11708741-A-G"));
+        annotatedVariant(
+            "8-11708661-C-T", "Missense", CohortVariant.SubpopulationEnum.AMR, 0.0045, 858, 190702, 0.0031, 472,
+            152312, CohortVariant.ClinvarSignificanceEnum.VUS, 0.05, null),
+        annotatedVariant(
+            "8-11708669-G-A", "Nonsense", CohortVariant.SubpopulationEnum.EUR, 0.0008, 414, 517466, 0.0003, 46,
+            152312, CohortVariant.ClinvarSignificanceEnum.PATHOGENIC, 0.03, CohortVariant.PlofEnum.HC),
+        annotatedVariant(
+            "8-11708677-T-C", "Synonymous", CohortVariant.SubpopulationEnum.EUR, 0.0612, 31669, 517466, 0.0578, 8804,
+            152312, CohortVariant.ClinvarSignificanceEnum.BENIGN, 0.01, null),
+        annotatedVariant(
+            "8-11708685-A-T", "Missense", CohortVariant.SubpopulationEnum.SAS, 0.0071, 152, 21428, 0.0019, 289,
+            152312, CohortVariant.ClinvarSignificanceEnum.VUS, 0.11, null),
+        annotatedVariant(
+            "8-11708693-C-G", "Frameshift", CohortVariant.SubpopulationEnum.AFR, 0.0024, 507, 211058, 0.0002, 30,
+            152312, CohortVariant.ClinvarSignificanceEnum.PATHOGENIC, 0.09, CohortVariant.PlofEnum.HC),
+        annotatedVariant(
+            "8-11708701-G-T", "Splice site", CohortVariant.SubpopulationEnum.EAS, 0.0028, 90, 32140, 0.0003, 46,
+            152312, CohortVariant.ClinvarSignificanceEnum.VUS, 0.62, CohortVariant.PlofEnum.HC),
+        annotatedVariant(
+            "8-11708709-A-C", "Missense", CohortVariant.SubpopulationEnum.EUR, 0.0389, 20130, 517466, 0.0356, 5422,
+            152312, CohortVariant.ClinvarSignificanceEnum.BENIGN, 0.02, null),
+        annotatedVariant(
+            "8-11708717-T-G", "Nonsense", CohortVariant.SubpopulationEnum.OTH, 0.0016, 154, 96422, 0.0001, 15,
+            152312, CohortVariant.ClinvarSignificanceEnum.PATHOGENIC, 0.04, CohortVariant.PlofEnum.HC),
+        annotatedVariant(
+            "8-11708725-C-A", "Synonymous", CohortVariant.SubpopulationEnum.AMR, 0.0524, 9993, 190702, 0.0498, 7585,
+            152312, CohortVariant.ClinvarSignificanceEnum.BENIGN, 0.01, null),
+        annotatedVariant(
+            "8-11708733-G-C", "Missense", CohortVariant.SubpopulationEnum.MID, 0.0067, 39, 5768, 0.0011, 168,
+            152312, CohortVariant.ClinvarSignificanceEnum.VUS, 0.13, null),
+        annotatedVariant(
+            "8-11708741-A-G", "Frameshift", CohortVariant.SubpopulationEnum.EUR, 0.0004, 207, 517466, 0.0002, 30,
+            152312, CohortVariant.ClinvarSignificanceEnum.PATHOGENIC, 0.06, CohortVariant.PlofEnum.HC));
   }
 
   private static CohortVariant annotatedVariant(
@@ -169,26 +191,6 @@ public class SearchResultsController implements SearchResultsApi {
         .plof(plof);
   }
 
-  private static CohortVariant unannotatedVariant(String variant) {
-    return new CohortVariant()
-        .variant(variant)
-        .gene("GATA4")
-        .annotated(false)
-        .classification(null)
-        .subpopulation(null)
-        .aouAf(null)
-        .aouAc(null)
-        .aouAn(null)
-        .gnomadAf(null)
-        .gnomadAc(null)
-        .gnomadAn(null)
-        .gnomadUrl(null)
-        .clinvarSignificance(null)
-        .clinvarUrl(null)
-        .spliceAi(null)
-        .plof(null);
-  }
-
   private static List<FilteredVariant> filteredVariants() {
     return List.of(
         filteredVariantWithStats("8-11708582-C-T", "Missense", 1, 428, 0.0023, 0, 1, 0, 0.7),
@@ -200,18 +202,18 @@ public class SearchResultsController implements SearchResultsApi {
         filteredVariantWithStats("8-11708629-T-A", "Missense", 2, 428, 0.0047, 0, 2, 0, 0.9),
         filteredVariantWithStats("8-11708637-A-C", "Missense", 31, 428, 0.0724, 1, 29, 0, 1.0),
         filteredVariantWithStats("8-11708645-CGGGG-C", "Frameshift", 2, 428, 0.0047, 0, 2, 1, 0.9),
-        unfilteredVariant("8-11708653-A-G", "Nonsense"),
-        unfilteredVariant("8-11708661-C-T", null),
-        unfilteredVariant("8-11708669-G-A", null),
-        unfilteredVariant("8-11708677-T-C", null),
-        unfilteredVariant("8-11708685-A-T", null),
-        unfilteredVariant("8-11708693-C-G", null),
-        unfilteredVariant("8-11708701-G-T", null),
-        unfilteredVariant("8-11708709-A-C", null),
-        unfilteredVariant("8-11708717-T-G", null),
-        unfilteredVariant("8-11708725-C-A", null),
-        unfilteredVariant("8-11708733-G-C", null),
-        unfilteredVariant("8-11708741-A-G", null));
+        filteredVariantWithStats("8-11708653-A-G", "Nonsense", 0, 428, 0.0, 0, 0, 0, 0.0),
+        filteredVariantWithStats("8-11708661-C-T", "Missense", 2, 428, 0.0047, 0, 2, 0, 1.0),
+        filteredVariantWithStats("8-11708669-G-A", "Nonsense", 1, 428, 0.0023, 0, 1, 1, 2.9),
+        filteredVariantWithStats("8-11708677-T-C", "Synonymous", 26, 428, 0.0607, 1, 24, 0, 1.0),
+        filteredVariantWithStats("8-11708685-A-T", "Missense", 3, 428, 0.007, 0, 3, 0, 1.0),
+        filteredVariantWithStats("8-11708693-C-G", "Frameshift", 4, 428, 0.0093, 0, 4, 2, 3.9),
+        filteredVariantWithStats("8-11708701-G-T", "Splice site", 1, 428, 0.0023, 0, 1, 0, 0.8),
+        filteredVariantWithStats("8-11708709-A-C", "Missense", 17, 428, 0.0397, 0, 17, 0, 1.0),
+        filteredVariantWithStats("8-11708717-T-G", "Nonsense", 0, 428, 0.0, 0, 0, 0, 0.0),
+        filteredVariantWithStats("8-11708725-C-A", "Synonymous", 23, 428, 0.0537, 1, 21, 0, 1.0),
+        filteredVariantWithStats("8-11708733-G-C", "Missense", 3, 428, 0.007, 0, 3, 0, 1.0),
+        filteredVariantWithStats("8-11708741-A-G", "Frameshift", 3, 428, 0.007, 0, 3, 1, 17.5));
   }
 
   private static FilteredVariant filteredVariantWithStats(
