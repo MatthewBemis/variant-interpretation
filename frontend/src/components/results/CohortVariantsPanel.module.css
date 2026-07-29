@@ -63,7 +63,7 @@
 }
 
 .table thead th.tintAou.groupStart {
-  border-left-color: var(--text-accent);
+  border-left-color: var(--border-strong);
 }
 
 .groupQualifier {
