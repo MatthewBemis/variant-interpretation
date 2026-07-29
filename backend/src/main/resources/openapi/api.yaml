@@ -70,6 +70,15 @@ components:
             Email address of the Workbench user, from the OWNER_EMAIL
             environment variable.
           example: "researcher@example.org"
+        env:
+          type: object
+          additionalProperties:
+            type: string
+          description: >-
+            Optional map of environment values. WARNING: do not populate this
+            with the full process environment — only include explicitly
+            allowlisted, non-sensitive keys, since this is returned to API
+            callers.
     SearchResultsResponse:
       type: object
       required:
