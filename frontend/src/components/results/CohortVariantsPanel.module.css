@@ -50,6 +50,23 @@
   color: var(--text-secondary);
 }
 
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  color: var(--text-accent);
+}
+
+.sortIndicator {
+  display: inline-block;
+  width: 10px;
+  margin-left: 2px;
+  font-size: 9px;
+  color: var(--text-accent);
+}
+
 .tintAou {
   background: #ebf3fa;
 }
