@@ -3,11 +3,11 @@ import styles from "./TopBar.module.css";
 interface TopBarProps {
   variantsEnteredCount: number;
   hpoTerm: string;
-  userName: string;
+  userEmail: string;
   onModifySearch: () => void;
 }
 
-export default function TopBar({ variantsEnteredCount, hpoTerm, userName, onModifySearch }: TopBarProps) {
+export default function TopBar({ variantsEnteredCount, hpoTerm, userEmail, onModifySearch }: TopBarProps) {
   return (
     <div className={styles.topbar}>
       <div className={styles.caseInfo}>
@@ -31,7 +31,7 @@ export default function TopBar({ variantsEnteredCount, hpoTerm, userName, onModi
           <circle cx="12" cy="8" r="4" />
           <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
         </svg>
-        {userName}
+        {userEmail}
       </div>
     </div>
   );

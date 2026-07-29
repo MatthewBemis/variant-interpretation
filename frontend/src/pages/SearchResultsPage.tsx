@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchProfile } from "../api/profile";
 import CohortVariantsPanel from "../components/results/CohortVariantsPanel";
 import ParticipantMatchedVariantsPanel from "../components/results/ParticipantMatchedVariantsPanel";
 import PhenotypeFilterPanel from "../components/results/PhenotypeFilterPanel";
@@ -14,12 +15,17 @@ import {
 } from "../data/mockResultsData";
 import styles from "./SearchResultsPage.module.css";
 
-const CURRENT_USER_NAME = "Lee Lichtenstein";
-
 export default function SearchResultsPage() {
+  const [userEmail, setUserEmail] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerVariants, setDrawerVariants] = useState(searchSummary.variantsRaw);
   const [drawerHpo, setDrawerHpo] = useState(searchSummary.hpoTerm);
+
+  useEffect(() => {
+    fetchProfile()
+      .then((profile) => setUserEmail(profile.userEmail))
+      .catch((err: Error) => console.error("Failed to load profile", err));
+  }, []);
 
   function handleCancelDrawer() {
     setDrawerVariants(searchSummary.variantsRaw);
@@ -44,7 +50,7 @@ export default function SearchResultsPage() {
       <TopBar
         variantsEnteredCount={searchSummary.variantsEnteredCount}
         hpoTerm={searchSummary.hpoTerm}
-        userName={CURRENT_USER_NAME}
+        userEmail={userEmail}
         onModifySearch={() => setDrawerOpen((open) => !open)}
       />
 
