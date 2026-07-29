@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FieldHint from "../components/FieldHint";
 import Hero from "../components/Hero";
 import StepPanel from "../components/StepPanel";
@@ -6,6 +7,7 @@ import ValueCallout from "../components/ValueCallout";
 import styles from "./SearchEntryPage.module.css";
 
 export default function SearchEntryPage() {
+  const navigate = useNavigate();
   const [variants, setVariants] = useState("");
   const [hpoTerm, setHpoTerm] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -17,11 +19,9 @@ export default function SearchEntryPage() {
       return;
     }
     setError(null);
-    // TODO: wire up to the real search once the backend endpoint and results page exist.
-    console.log("Search submitted", {
-      variants: trimmedVariants.split("\n"),
-      hpoTerm: hpoTerm.trim() || null,
-    });
+    // The results page still shows illustrative mock data until a real search
+    // endpoint exists to run this query against.
+    navigate("/results");
   }
 
   return (

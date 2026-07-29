@@ -1,0 +1,19 @@
+.main {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.topRow {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .topRow {
+    grid-template-columns: 1fr;
+  }
+}
