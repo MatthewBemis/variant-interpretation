@@ -5,6 +5,17 @@
   justify-content: center;
 }
 
+@keyframes chipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .chip {
   display: inline-flex;
   align-items: center;
@@ -12,6 +23,13 @@
   font-size: 11px;
   color: var(--text-secondary);
   font-weight: 500;
+  animation: chipFadeIn 0.35s ease backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip {
+    animation: none;
+  }
 }
 
 .dot {

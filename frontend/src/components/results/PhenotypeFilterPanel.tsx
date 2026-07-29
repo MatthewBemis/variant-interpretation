@@ -68,13 +68,14 @@ export default function PhenotypeFilterPanel({
             </div>
           </div>
 
+          {/* Keyed by tab so switching remounts the donut/legend, replaying their entrance animation. */}
           {activeTab === "ancestry" ? (
-            <div>
-              <Donut segments={ancestryBreakdown} centerLabel={<>% of<br />alleles</>} />
+            <div key="ancestry">
+              <Donut segments={ancestryBreakdown} centerLabel={<>% of<br />participants</>} />
               <BreakdownLegend segments={ancestryBreakdown} />
             </div>
           ) : (
-            <div>
+            <div key="age">
               <Donut segments={ageBreakdown} centerLabel={<>% of<br />participants</>} />
               <BreakdownLegend segments={ageBreakdown} />
             </div>
