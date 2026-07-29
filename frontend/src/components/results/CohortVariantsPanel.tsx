@@ -167,7 +167,7 @@ export default function CohortVariantsPanel({ rows }: CohortVariantsPanelProps) 
               return (
                 <span className={styles.clinvarCell}>
                   <Tag variant={CLINVAR_TAG_VARIANT[clinvarSignificance]}>{clinvarSignificance}</Tag>
-                  <a className={styles.iconLinkBtn} href={clinvarUrl} title="View in ClinVar">
+                  <a className={styles.iconLinkBtn} target={"_blank"} href={clinvarUrl} title="View in ClinVar">
                     ↗
                   </a>
                 </span>

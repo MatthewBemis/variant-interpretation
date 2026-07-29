@@ -80,8 +80,7 @@ public class SearchResultsController implements SearchResultsApi {
 
   private static List<BreakdownSegment> ageBreakdown() {
     return List.of(
-        segment("0–17", 1.4, "#DCEEF7"),
-        segment("18–29", 6.5, "#B8DCEF"),
+        segment("18–29", 7.9, "#B8DCEF"),
         segment("30–39", 14.0, "#8DC6E5"),
         segment("40–49", 21.5, "#5FAEDA"),
         segment("50–59", 26.2, "#3B8FC4"),
