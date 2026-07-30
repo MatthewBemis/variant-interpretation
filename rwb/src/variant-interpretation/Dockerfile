@@ -19,6 +19,13 @@ RUN ./gradlew --no-daemon bootJar -x test
 
 FROM eclipse-temurin:21-jre-noble
 WORKDIR /app
+# post-startup.sh (run via postCreateCommand, see .devcontainer.json) requires
+# these -- sudo in particular, since it runs every step via
+# `sudo -u root bash -l -c ...`, and fails immediately without it.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends sudo jq git lsb-release && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 COPY --from=backend-build /backend/build/libs/*.jar app.jar
 COPY rwb/src/variant-interpretation/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
