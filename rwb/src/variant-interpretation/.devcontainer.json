@@ -4,6 +4,10 @@
   "service": "app",
   "shutdownAction": "none",
   "workspaceFolder": "/workspace",
+  "onCreateCommand": [
+    "export OWNER_EMAIL=test@example.com",
+    "export GOOGLE_PROJECT={{GOOGLE_PROJECT}}"
+  ],
   "postCreateCommand": [
     "./startupscript/post-startup.sh",
     "root",
