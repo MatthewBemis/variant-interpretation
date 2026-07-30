@@ -20,5 +20,7 @@ RUN ./gradlew --no-daemon bootJar -x test
 FROM eclipse-temurin:21-jre-noble
 WORKDIR /app
 COPY --from=backend-build /backend/build/libs/*.jar app.jar
+COPY rwb/src/variant-interpretation/entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["/app/entrypoint.sh"]
