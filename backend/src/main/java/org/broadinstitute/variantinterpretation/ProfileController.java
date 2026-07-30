@@ -26,7 +26,15 @@ public class ProfileController implements ProfileApi {
   @Override
   public ResponseEntity<UserProfile> profile() {
     Map<String, String> env = new HashMap<>();
-    for (String key : List.of("OWNER_EMAIL", "GOOGLE_PROJECT", "WORKBENCH_USER_EMAIL")) {
+    for (String key :
+        List.of(
+            "OWNER_EMAIL",
+            "GOOGLE_PROJECT",
+            "WORKBENCH_USER_EMAIL",
+            "TERRA_USER_EMAIL",
+            "GOOGLE_CLOUD_PROJECT",
+            "PET_SA_EMAIL",
+            "GOOGLE_SERVICE_ACCOUNT_EMAIL")) {
       String v = System.getenv(key);
       if (v != null) env.put(key, v);
     }
