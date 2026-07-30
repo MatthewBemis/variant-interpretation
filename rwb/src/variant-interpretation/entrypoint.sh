@@ -14,7 +14,9 @@
 set -euo pipefail
 
 readonly WORKBENCH_ENV_FILE="/root/.workbench-env"
-readonly MAX_WAIT_SECONDS=120
+# post-startup.sh (wb CLI download/login, git-setup, gcsfuse install/mount) has
+# been observed taking ~3 minutes on a fresh VM; give it comfortable headroom.
+readonly MAX_WAIT_SECONDS=600
 
 waited=0
 while [[ ! -f "${WORKBENCH_ENV_FILE}" && "${waited}" -lt "${MAX_WAIT_SECONDS}" ]]; do
