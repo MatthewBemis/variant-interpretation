@@ -8,7 +8,8 @@
 # after the container is already running, and written to /root/.bashrc.
 #
 # postCreateCommand extracts those exports into /root/.workbench-env once
-# post-startup.sh finishes (same approach as rwb/src/aou-sas/setup-sas-env.sh).
+# post-startup.sh finishes (same approach used by other Workbench app
+# templates upstream, e.g. aou-sas/setup-sas-env.sh).
 # Wait for that file here, then source it before starting the app, so
 # System.getenv() in the Java process actually sees these values.
 set -euo pipefail

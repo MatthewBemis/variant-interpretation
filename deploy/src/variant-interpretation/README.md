@@ -24,7 +24,7 @@ Once deployed in Workbench, access the app at the app URL (port 8080).
 
 For local testing:
 1. Create Docker network: `docker network create app-network`
-2. From the repo root, build and run: `docker compose -f rwb/src/variant-interpretation/docker-compose.yaml up --build`
+2. From the repo root, build and run: `docker compose -f deploy/src/variant-interpretation/docker-compose.yaml up --build`
 3. Access at: `http://localhost:8080`
 
 ## Customization
@@ -40,4 +40,4 @@ For local testing:
 
 1. Fork the repository
 2. In Workbench UI, create a custom app pointing to your forked repository,
-   branch `main`, and folder `rwb/src/variant-interpretation`
+   branch `main`, and folder `deploy/src/variant-interpretation`

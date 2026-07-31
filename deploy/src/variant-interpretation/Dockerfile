@@ -27,7 +27,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 COPY --from=backend-build /backend/build/libs/*.jar app.jar
-COPY rwb/src/variant-interpretation/entrypoint.sh /app/entrypoint.sh
+COPY deploy/src/variant-interpretation/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 EXPOSE 8080
 ENTRYPOINT ["/app/entrypoint.sh"]

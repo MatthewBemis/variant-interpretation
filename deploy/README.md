@@ -1,4 +1,4 @@
-# rwb
+# deploy
 
 This is a trimmed-down copy of [verily-src/workbench-app-devcontainers](https://github.com/verily-src/workbench-app-devcontainers),
 keeping only what this app needs to be packaged and deployed as a Verily
@@ -15,5 +15,5 @@ harness for all of them. None of that is used by this app, so it isn't
 included here. If you need to pull in an upstream fix to the packaging
 files above, refer to the upstream repo directly.
 
-Note: `startupscript/` lives at the repository root, not under `rwb/` - see
+Note: `startupscript/` lives at the repository root, not under `deploy/` - see
 [its README](../startupscript/README.md) for why.

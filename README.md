@@ -16,10 +16,10 @@ This application will be used in the All of Us Verily Researcher Workbench.
   - `GET /api/profile` - returns `{"userEmail": "<owner email>"}`, read from
     the `OWNER_EMAIL` environment variable set on the Workbench VM (empty if
     unset, e.g. in local dev without it exported).
-- `rwb/` - Vendored [Verily Workbench devcontainer](rwb/README.md) tooling used to
+- `deploy/` - Vendored [Verily Workbench devcontainer](deploy/README.md) tooling used to
   package and deploy this app as a Workbench custom app. The packaging for this
-  app lives in `rwb/src/variant-interpretation/`; see its
-  [README](rwb/src/variant-interpretation/README.md) for how it combines the
+  app lives in `deploy/src/variant-interpretation/`; see its
+  [README](deploy/src/variant-interpretation/README.md) for how it combines the
   frontend and backend into a single container.
 
 ## Local development
@@ -50,7 +50,7 @@ no CORS or reverse proxy to configure). To build and run that image locally:
 
 ```bash
 docker network create app-network  # first time only
-OWNER_EMAIL=you@example.org docker compose -f rwb/src/variant-interpretation/docker-compose.yaml up --build
+OWNER_EMAIL=you@example.org docker compose -f deploy/src/variant-interpretation/docker-compose.yaml up --build
 ```
 
 Then open `http://localhost:8080`.
