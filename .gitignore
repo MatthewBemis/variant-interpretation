@@ -1,8 +1,8 @@
 # Backend (Gradle)
-backend/build/
-backend/.gradle/
+api/build/
+api/.gradle/
 # Populated at container-build time by copying the built frontend in.
-backend/src/main/resources/static/
+api/src/main/resources/static/
 
 # Frontend (Node/Vite)
 ui/node_modules/
