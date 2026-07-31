@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchProfile } from "../api/profile";
 import FieldHint from "../components/FieldHint";
 import Hero from "../components/Hero";
 import RecentSearches from "../components/RecentSearches";
 import StepPanel from "../components/StepPanel";
 import ValueCallout from "../components/ValueCallout";
+import TopBar from "../components/results/TopBar";
 import styles from "./SearchEntryPage.module.css";
 
 export default function SearchEntryPage() {
@@ -12,6 +14,13 @@ export default function SearchEntryPage() {
   const [variants, setVariants] = useState("");
   const [hpoTerm, setHpoTerm] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    fetchProfile()
+      .then((profile) => setUserEmail(profile.userEmail))
+      .catch((err: Error) => console.error("Failed to load profile", err));
+  }, []);
 
   function handleSearch() {
     const trimmedVariants = variants.trim();
@@ -27,9 +36,10 @@ export default function SearchEntryPage() {
 
   return (
     <>
+      <TopBar userEmail={userEmail} />
       <Hero
         title="Variant Interpretation"
-        subtitle="Rule candidate variants in or out by comparing them against All of Us's full participant cohort, no coding required."
+        subtitle="Rule candidate variants in or out by comparing them against All of Us's full participant cohort — no coding required."
       />
       <main className={styles.main}>
         <div className={styles.stepsRow}>
