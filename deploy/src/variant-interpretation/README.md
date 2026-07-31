@@ -5,7 +5,7 @@ TypeScript frontend served by a Java + Spring Boot backend, packaged into a
 single container.
 
 The `Dockerfile` here builds in two stages: it compiles the frontend
-(`frontend/` at the repo root) with Node, copies the built assets into the
+(`ui/` at the repo root) with Node, copies the built assets into the
 backend's static resources, then builds the Spring Boot jar (`backend/` at
 the repo root) with Gradle. The resulting image runs the jar directly, so the
 API (`/api/hello`) and the frontend are both served from port 8080 — no
@@ -29,7 +29,7 @@ For local testing:
 
 ## Customization
 
-- `../../../frontend` - React + TypeScript source
+- `../../../ui` - React + TypeScript source
 - `../../../backend` - Java + Spring Boot source
 - `Dockerfile` - Multi-stage build combining both into one image
 - `.devcontainer.json` - Devcontainer configuration and features

@@ -1,11 +1,11 @@
 # Build context is the repository root (see docker-compose.yaml), so paths
 # below are relative to the top of variant-interpretation, not this folder.
 
-FROM node:20-alpine AS frontend-build
-WORKDIR /frontend
-COPY frontend/package*.json ./
+FROM node:20-alpine AS ui-build
+WORKDIR /ui
+COPY ui/package*.json ./
 RUN npm ci
-COPY frontend/ .
+COPY ui/ .
 RUN npm run build
 
 FROM gradle:8.14.1-jdk21-noble AS backend-build
@@ -14,7 +14,7 @@ COPY backend/settings.gradle backend/build.gradle backend/gradlew ./
 COPY backend/gradle ./gradle
 RUN ./gradlew --no-daemon dependencies
 COPY backend/src ./src
-COPY --from=frontend-build /frontend/dist ./src/main/resources/static
+COPY --from=ui-build /ui/dist ./src/main/resources/static
 RUN ./gradlew --no-daemon bootJar -x test
 
 FROM eclipse-temurin:21-jre-noble

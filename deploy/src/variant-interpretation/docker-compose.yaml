@@ -3,7 +3,7 @@ services:
     # The container name must be "application-server"
     container_name: "application-server"
     build:
-      # The frontend/ and backend/ source lives at the repository root, so
+      # The ui/ and backend/ source lives at the repository root, so
       # the build context is set there instead of this folder.
       context: ../../..
       dockerfile: deploy/src/variant-interpretation/Dockerfile

@@ -6,7 +6,7 @@ This application will be used in the All of Us Verily Researcher Workbench.
 
 ## Structure
 
-- `frontend/` - React + TypeScript app (Vite). Currently a "Hello world" page that
+- `ui/` - React + TypeScript app (Vite). Currently a "Hello world" page that
   fetches the current time from the backend.
 - `backend/` - Java + Spring Boot app, built with Gradle. The API is
   defined API-first in `backend/src/main/resources/openapi/api.yaml`
@@ -25,14 +25,14 @@ This application will be used in the All of Us Verily Researcher Workbench.
 ## Local development
 
 Run the backend and frontend separately, with Vite proxying `/api` calls to the
-backend (see `frontend/vite.config.ts`):
+backend (see `ui/vite.config.ts`):
 
 ```bash
 # terminal 1
 cd backend && ./gradlew bootRun
 
 # terminal 2
-cd frontend && npm install && npm run dev
+cd ui && npm install && npm run dev
 ```
 
 Open the URL Vite prints (default `http://localhost:5173`) - you should see

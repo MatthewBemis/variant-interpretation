@@ -5,9 +5,9 @@ backend/.gradle/
 backend/src/main/resources/static/
 
 # Frontend (Node/Vite)
-frontend/node_modules/
-frontend/dist/
-frontend/*.tsbuildinfo
+ui/node_modules/
+ui/dist/
+ui/*.tsbuildinfo
 
 # IDE
 .idea/
