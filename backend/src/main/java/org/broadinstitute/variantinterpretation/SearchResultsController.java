@@ -184,7 +184,7 @@ public class SearchResultsController implements SearchResultsApi {
         .gnomadAf(BigDecimal.valueOf(gnomadAf))
         .gnomadAc(gnomadAc)
         .gnomadAn(gnomadAn)
-        .gnomadUrl("#")
+        .gnomadUrl("https://gnomad.broadinstitute.org/variant/" + variant)
         .clinvarSignificance(clinvarSignificance)
         .clinvarUrl("https://www.ncbi.nlm.nih.gov/clinvar/?term=" + variant)
         .spliceAi(BigDecimal.valueOf(spliceAi))

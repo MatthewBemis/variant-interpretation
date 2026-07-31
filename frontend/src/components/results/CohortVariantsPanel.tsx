@@ -173,7 +173,13 @@ export default function CohortVariantsPanel({ rows }: CohortVariantsPanelProps) 
             enableSorting: false,
             cell: ({ row }) =>
               row.original.annotated ? (
-                <a className={styles.iconLinkBtn} href={row.original.gnomadUrl} title="Open in gnomAD">
+                <a
+                  className={styles.iconLinkBtn}
+                  href={row.original.gnomadUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Open in gnomAD"
+                >
                   ↗
                 </a>
               ) : null,
