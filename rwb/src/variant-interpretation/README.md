@@ -36,15 +36,6 @@ For local testing:
 - `docker-compose.yaml` - Docker Compose configuration
 - `devcontainer-template.json` - Template options and metadata
 
-## Testing
-
-To test this app template:
-
-```bash
-cd test
-./test.sh variant-interpretation
-```
-
 ## Usage
 
 1. Fork the repository
